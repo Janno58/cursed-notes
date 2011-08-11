@@ -55,7 +55,7 @@ void NoteList::PrintToPad() {
 
     for(note_vector::iterator itr = nb->begin(); itr < nb->end(); itr++) {
         
-        if(cur_row == selected) {
+        if(cur_row == selected && hilight_selected) {
             // change current color include fancy background color
             wattron(ElementPad, COLOR_PAIR(TextColor*8+BackColor));   
             // Fill with spaces so we get background color 

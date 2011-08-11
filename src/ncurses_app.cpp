@@ -36,6 +36,7 @@ Ncurses_app::Ncurses_app(Projbook * pbook) {
     ItemLs = new NC::ProjList(Books);
     Filler = new NC::Filler();
     CurBook= NULL; 
+    cycle  = 0;
     screen = 0;
     running= true;
 
@@ -76,6 +77,7 @@ void Ncurses_app::ActOnInput(unsigned int userinp) {
                 Switch_View();
             }
         }
+        cycle = 0;
     }
 
     // User wants this operation shut down asap! 
@@ -85,13 +87,17 @@ void Ncurses_app::ActOnInput(unsigned int userinp) {
         
     // Go down 1 item 
     ////////////////////////////////////////////////////////////////////
-    if(userinp == 'j' or userinp == KEY_DOWN)
+    if(userinp == 'j' or userinp == KEY_DOWN) {
         ItemLs->Scroll(NC::ScrollDown);
+        cycle = 0;
+    }
         
     // Go up 1 item 
     ////////////////////////////////////////////////////////////////////
-    if(userinp == 'k' or userinp == KEY_UP)
+    if(userinp == 'k' or userinp == KEY_UP) {
         ItemLs->Scroll(NC::ScrollUp);
+        cycle = 0;
+    }
 
     // Delete currently selected item
     ////////////////////////////////////////////////////////////////////   
@@ -207,6 +213,16 @@ void Ncurses_app::Run() {
             Header->PrintStatus(Books->size(), ItemLs->GetSelected() + 1);
         } else if(screen == 1 && CurBook != NULL) {
             Header->PrintStatus(CurBook->size(), ItemLs->GetSelected() + 1);
+        }
+
+        cycle++;
+
+        if(cycle < 75 && !ItemLs->hilight_selected) {
+            ItemLs->hilight_selected = true; 
+            ItemLs->needsResize = true;
+        } else if(cycle > 75 && ItemLs->hilight_selected) {
+            ItemLs->hilight_selected = false; 
+            ItemLs->needsResize = true;
         }
 
         Filler->Refresh();

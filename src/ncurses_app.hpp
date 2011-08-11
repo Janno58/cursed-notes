@@ -84,7 +84,7 @@ class Ncurses_app {
         Projbook    * Books;
         Notebook    * CurBook;
         int           screen;
-
+        int           cycle;
         int running;
 };
 

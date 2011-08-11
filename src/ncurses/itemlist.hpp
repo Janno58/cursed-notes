@@ -41,25 +41,38 @@ class ItemList : public WindowElement{
     public:
         // Recreates the pad used for drawing, used for coping with resizes
         ////////////////////////////////////////////////////////////////////////
-        void    Recreate(size_t ,size_t);
+        void Recreate(size_t ,size_t);
         
         // Copies pad contents to real screen but does not update
         ////////////////////////////////////////////////////////////////////////
-        void    Refresh();
+        void Refresh();
         
         // Makes next or previous item active 
         ////////////////////////////////////////////////////////////////////////
-        void    Scroll(ScrollDirection);
+        void Scroll(ScrollDirection);
 
         // Returns nr of currently active/selected item 
         ////////////////////////////////////////////////////////////////////////
-        int     GetSelected();
+        int GetSelected();
+       
+        // Toggels the hilight of currently selected item
+        ////////////////////////////////////////////////////////////////////////
+        bool hilight_selected;     
+
+        // Colours!
+        ////////////////////////////////////////////////////////////////////////
         Color   TextColor;
         Color   BackColor;
 
     protected:
         
+        // Print book contents, book dependent and should be implemented in
+        // derived class
+        ////////////////////////////////////////////////////////////////////////
         virtual void PrintToPad() = 0;
+        
+        // Return amount of elements in underlying book
+        ////////////////////////////////////////////////////////////////////////
         virtual unsigned int mySize() = 0;
 
         // Selects next ( 1 down) item 
