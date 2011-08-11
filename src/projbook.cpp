@@ -50,7 +50,7 @@ void Projbook::Remove(unsigned int ID) {
     }
    
     try {
-        erase(end() + ID);
+        erase(begin() + ID);
     } catch (std::exception& e) {
         throw remove_book_exception();
     }    
