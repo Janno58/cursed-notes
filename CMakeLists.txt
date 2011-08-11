@@ -20,7 +20,7 @@
 # THE SOFTWARE.
 ################################################################################
 cmake_minimum_required(VERSION 2.8)
-project("UnimportantStuff")
+project("Cursed Notes")
 
 # Options
 SET(CMAKE_BUILD_TYPE "DEBUG")
