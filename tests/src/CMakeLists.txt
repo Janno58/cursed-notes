@@ -30,6 +30,9 @@ set(SRC
     ${REAL_SRCROOT}/projbook.cpp
     ${REAL_SRCROOT}/projbook.hpp
     ${TEST_SRCROOT}/projbook_test.cpp
+
+    ${REAL_SRCROOT}/note.hpp
+    ${TEST_SRCROOT}/note_test.cpp
 )
 
 add_executable(cursednotes_test ${SRC}) 
