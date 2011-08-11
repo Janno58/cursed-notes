@@ -1,0 +1,10 @@
+NCurses notes app written in C++ that uses boost and ncurses libs.
+Functions:
+    * Load from file
+    * Save to file
+    * Add new notebook
+    * Add new notes
+    * Remove notebook
+    * Remove note
+    * Edit notebook name
+    * Edit note
