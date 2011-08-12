@@ -26,19 +26,16 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include <projbook.hpp>
 #include <notebook.hpp>
-// ncurses
 #include <ncurses/ncurses.hpp>
 #include <ncurses/header.hpp>
 #include <ncurses/footer.hpp>
 #include <ncurses/projlist.hpp>
 #include <ncurses/notelist.hpp>
 #include <ncurses/filler.hpp>
-// C
 #include <signal.h>
 
 ///////////////////////////////////////////////////////////////////////////////
-// ncurses_app class
-// Takes care of all the ncurses interface stuff
+// Ncurses interface specific stuff
 ///////////////////////////////////////////////////////////////////////////////
 class Ncurses_app {
     public:
@@ -82,10 +79,10 @@ class Ncurses_app {
         NC::ItemList* ItemLs;
         NC::Filler  * Filler;
         Projbook    * Books;
-        Notebook    * CurBook;
-        int           screen;
-        int           cycle;
-        int running;
+        Notebook    * CurBook;  
+        int           screen;   // 0 - ProjList, 1 - NoteList
+        int           cycle;      
+        bool          running;  // kill switch
 };
 
 ///////////////////////////////////////////////////////////////////////////////

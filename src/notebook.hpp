@@ -25,19 +25,14 @@
 // Headers                                                                   //
 ///////////////////////////////////////////////////////////////////////////////
 #include <note.hpp>
-// std/stl
 #include <exception>
 #include <sstream>
-#include <algorithm>
-#include <map>
-// boost
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/string.hpp>
 #include <boost/serialization/access.hpp>
 
 ///////////////////////////////////////////////////////////////////////////////
-// Holds collection of notes, uses std::vector as base class and only adds few
-// convinience functions                                                      
+// Notebook is a std::vector of Notes
 ///////////////////////////////////////////////////////////////////////////////
 class Notebook : public note_vector {
     friend class boost::serialization::access; // boost needs access to private

@@ -208,21 +208,27 @@ void Ncurses_app::Run() {
 
             resize = false;   
         }
-
-        if(screen == 0) {
+        
+        if(screen == 0)
             Header->PrintStatus(Books->size(), ItemLs->GetSelected() + 1);
-        } else if(screen == 1 && CurBook != NULL) {
+        else if(screen == 1 && CurBook != NULL)
             Header->PrintStatus(CurBook->size(), ItemLs->GetSelected() + 1);
-        }
-
+        
         cycle++;
 
+        // enable selected item hilight
         if(cycle < 75 && !ItemLs->hilight_selected) {
             ItemLs->hilight_selected = true; 
             ItemLs->needsResize = true;
-        } else if(cycle > 75 && ItemLs->hilight_selected) {
+        }
+        // disable selected item hilight
+        else if(cycle > 75 && ItemLs->hilight_selected) {
             ItemLs->hilight_selected = false; 
             ItemLs->needsResize = true;
+        }
+        // Cap cycle to 500, no need for a overflow
+        else if(cycle > 500) {
+            cycle = 100;
         }
 
         Filler->Refresh();

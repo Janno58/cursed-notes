@@ -34,8 +34,7 @@
 // Note 
 ////////////////////////////////////////////////////////////////////////////////
 class Note : public std::string {
-    friend class boost::serialization::access; // boost needs access to private
-    private:
+    public:
         // boost serialization
         ////////////////////////////////////////////////////////////////////////
         template<class Archive>

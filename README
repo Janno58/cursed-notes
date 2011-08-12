@@ -8,3 +8,13 @@ Functions:
     * Remove note
     * Edit notebook name
     * Edit note
+
+Keys
+    * space(Notebook list)  - Open notebook
+    * space(Note list)      - Back to list of notebooks
+    * q - exit
+    * j - scroll down
+    * k - scroll up
+    * d - delete selected item
+    * n - new item
+    * e - edit selected item

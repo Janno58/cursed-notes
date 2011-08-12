@@ -25,17 +25,13 @@
 // Headers                                                                   //
 ///////////////////////////////////////////////////////////////////////////////
 #include <notebook.hpp>
-// std/stl
 #include <exception>
-#include <algorithm>
-// boost
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/string.hpp>
 #include <boost/serialization/access.hpp>
 
 ///////////////////////////////////////////////////////////////////////////////
-// Holds collection of notebooks, uses std::map as base class and only adds few
-// convinience functions                                                      
+// Projbook is a std::vector of Notebooks
 ///////////////////////////////////////////////////////////////////////////////
 class Projbook : public notebook_vector {
     friend class boost::serialization::access; // boost needs access to private
