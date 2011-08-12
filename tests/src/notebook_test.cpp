@@ -46,5 +46,14 @@ BOOST_AUTO_TEST_CASE (Remove) {
     BOOST_CHECK_THROW(nb.Remove(1), Notebook::remove_note_exception);
 }
 
+// Test Notebook::Name
+////////////////////////////////////////////////////////////////////////////////
+BOOST_AUTO_TEST_CASE (Name) {
+    Notebook nb;
+
+    BOOST_CHECK_NO_THROW(nb.Name.assign("TestyName"));
+    BOOST_CHECK_EQUAL(nb.Name, "TestyName");
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 BOOST_AUTO_TEST_SUITE_END()
