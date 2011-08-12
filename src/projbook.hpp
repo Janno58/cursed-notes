@@ -40,14 +40,6 @@
 class Projbook : public notebook_vector {
     friend class boost::serialization::access; // boost needs access to private
     public:
-        // Constructor
-        ////////////////////////////////////////////////////////////////////////
-        Projbook();
-        
-        // Destructor
-        ////////////////////////////////////////////////////////////////////////
-        ~Projbook();
-     
         // Add new item
         void Add(std::string);
 
