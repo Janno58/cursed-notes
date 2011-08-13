@@ -34,7 +34,7 @@ NoteList::NoteList(Notebook * nbook) {
     screen_end  = LINES-4;
     TextColor   = clYellow;
     BackColor   = clBlack;   
-
+    hilight_selected = true;
     ElementPad = newpad(nb->size(), COLS);
 
     this->PrintToPad();    
