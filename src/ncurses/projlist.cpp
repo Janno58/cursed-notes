@@ -34,7 +34,7 @@ ProjList::ProjList(Projbook * pbook) {
     screen_end  = LINES-4;
     TextColor   = clYellow;
     BackColor   = clBlack;   
-
+    hilight_selected = true;
     ElementPad = newpad(pb->size(), COLS);
 
     this->PrintToPad(); 

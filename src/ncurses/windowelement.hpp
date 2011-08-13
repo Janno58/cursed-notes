@@ -64,7 +64,7 @@ class WindowElement {
         ///////////////////////////////////////////////////////////////////////
         virtual void SetTimeout(int = 50);
               
-        int needsResize;
+        bool needsResize;
         
     protected:
         int       y_statusline;

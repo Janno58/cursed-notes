@@ -28,6 +28,7 @@ namespace NC {
 WindowElement::WindowElement() {
     // By default there is no statusline
     y_statusline = -1;    
+    needsResize = false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
