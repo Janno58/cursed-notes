@@ -128,11 +128,19 @@ std::string Footer::GetString() {
                     break; 
             }
 
+            // right
+            case KEY_RIGHT:
+            {
+                if (uchar != KEY_BACKSPACE && uchar != 127)
+                    break; 
+            }
+            
             // delete
             case KEY_DC:
             {
                 if(!user_str.empty()) {
                     user_str.erase(user_str.end() - 1);
+                    counter--;
                 }
                 break;
             }           
@@ -199,10 +207,13 @@ std::string Footer::GetString(std::string start_string) {
             // left
             case KEY_LEFT:
             {
-                if(counter > 0) {
-                    counter--;
-                }         
-                
+                if (uchar != KEY_BACKSPACE && uchar != 127)
+                    break; 
+            }
+
+            // right
+            case KEY_RIGHT:
+            {
                 if (uchar != KEY_BACKSPACE && uchar != 127)
                     break; 
             }
@@ -212,6 +223,7 @@ std::string Footer::GetString(std::string start_string) {
             {
                 if(!user_str.empty()) {
                     user_str.erase(user_str.end() - 1);
+                    counter--;
                 }
                 break;
             }           
