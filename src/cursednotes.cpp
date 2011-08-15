@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include <ncurses_app.hpp>
 #include <booknote.hpp>
-#include <pbio.hpp>
+#include <bnio.hpp>
 #include <iostream>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
@@ -66,8 +66,8 @@ int main() {
     // If there was error with paths, no point in running
     if(run) {
         Booknote    * bn        = new Booknote;    
-        pbio        * pio       = new pbio(full_path);
-        Ncurses_app * interface = new Ncurses_app(bn = pio->Read());
+        bnio        * pio       = new bnio(full_path, bn);
+        Ncurses_app * interface = new Ncurses_app(bn);
         
         interface->Run();
         pio->Write(bn);   

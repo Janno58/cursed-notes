@@ -25,8 +25,8 @@ set(SRC
     ${SRCROOT}/cursednotes.cpp
     ${SRCROOT}/booknote.cpp
     ${SRCROOT}/booknote.hpp
-    ${SRCROOT}/pbio.cpp
-    ${SRCROOT}/pbio.hpp
+    ${SRCROOT}/bnio.cpp
+    ${SRCROOT}/bnio.hpp
     ${SRCROOT}/ncurses_app.hpp
     ${SRCROOT}/ncurses_app.cpp
     ${SRCROOT}/ncurses/ncurses.cpp

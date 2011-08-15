@@ -21,28 +21,26 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Header
 ///////////////////////////////////////////////////////////////////////////////
-#include <pbio.hpp>
+#include <bnio.hpp>
 
 ///////////////////////////////////////////////////////////////////////////////
-pbio::pbio(bfs::path path) {
+bnio::bnio(bfs::path path, Booknote * bn) {
     pbpath = path;
+    Read(bn);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-Booknote * pbio::Read() {
+void bnio::Read(Booknote * bn) {
     bfs::ifstream ifs(pbpath);
-    Booknote * pb = new Booknote;
 
     if(ifs.good()) {
         boost::archive::text_iarchive ia(ifs);
-        ia >> *pb;  
+        ia >> *bn;  
     }
-
-    return pb;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void pbio::Write(Booknote * pb) {
+void bnio::Write(Booknote * pb) {
     bfs::ofstream ofs(pbpath);
     
     if(ofs.good()) {
