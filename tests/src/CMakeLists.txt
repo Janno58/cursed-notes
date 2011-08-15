@@ -23,16 +23,9 @@ set(REAL_SRCROOT ${CMAKE_SOURCE_DIR}/src)
 set(TEST_SRCROOT ${CMAKE_SOURCE_DIR}/tests/src)
 
 set(SRC
-    ${REAL_SRCROOT}/notebook.cpp
-    ${REAL_SRCROOT}/notebook.hpp
-    ${TEST_SRCROOT}/notebook_test.cpp
-    
-    ${REAL_SRCROOT}/projbook.cpp
-    ${REAL_SRCROOT}/projbook.hpp
-    ${TEST_SRCROOT}/projbook_test.cpp
-
-    ${REAL_SRCROOT}/note.hpp
-    ${TEST_SRCROOT}/note_test.cpp
+    ${REAL_SRCROOT}/booknote.hpp
+    ${REAL_SRCROOT}/booknote.cpp
+    ${TEST_SRCROOT}/booknote_test.cpp
 )
 
 add_executable(cursednotes_test ${SRC}) 

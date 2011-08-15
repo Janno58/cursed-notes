@@ -24,15 +24,14 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Headers
 ///////////////////////////////////////////////////////////////////////////////
-#include <projbook.hpp>
-#include <notebook.hpp>
+#include <booknote.hpp>
 #include <ncurses/ncurses.hpp>
 #include <ncurses/header.hpp>
 #include <ncurses/footer.hpp>
-#include <ncurses/projlist.hpp>
-#include <ncurses/notelist.hpp>
+#include <ncurses/itemlist.hpp>
 #include <ncurses/filler.hpp>
 #include <signal.h>
+#include <stack>
 
 ///////////////////////////////////////////////////////////////////////////////
 // Ncurses interface specific stuff
@@ -41,7 +40,7 @@ class Ncurses_app {
     public:
         // Constructor
         ///////////////////////////////////////////////////////////////////////
-        Ncurses_app(Projbook *);
+        Ncurses_app(Booknote *);
         
         // Destructor
         ///////////////////////////////////////////////////////////////////////
@@ -51,14 +50,6 @@ class Ncurses_app {
         ///////////////////////////////////////////////////////////////////////
         void Run();
         
-        // Switch to ProjList view
-        ///////////////////////////////////////////////////////////////////////
-        void Switch_View();
-        
-        // Switch view to given notebook
-        ///////////////////////////////////////////////////////////////////////
-        void Switch_View(Notebook *);
-
         // True  - rebuild/resize all ncurses elements and the window
         // False - nothing
         ///////////////////////////////////////////////////////////////////////
@@ -72,15 +63,17 @@ class Ncurses_app {
         // Acts on given input
         ///////////////////////////////////////////////////////////////////////
         void ActOnInput(unsigned int); 
+        
+        // Stack of booknotes
+        ///////////////////////////////////////////////////////////////////////
+        std::stack<Booknote *> BookStack; 
 
         NC::NCurses * NCurse;
         NC::Header  * Header;
         NC::Footer  * Footer;
         NC::ItemList* ItemLs;
         NC::Filler  * Filler;
-        Projbook    * Books;
-        Notebook    * CurBook;  
-        int           screen;   // 0 - ProjList, 1 - NoteList
+       
         int           cycle;      
         bool          running;  // kill switch
 };

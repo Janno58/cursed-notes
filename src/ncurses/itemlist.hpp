@@ -23,7 +23,7 @@
 #define ncurses_itemlist_hpp
 
 ////////////////////////////////////////////////////////////////////////////////
-#include <notebook.hpp>
+#include <booknote.hpp>
 #include <ncurses/windowelement.hpp>
 #include <ncurses.h>
 
@@ -39,6 +39,14 @@ enum Color { clDefault, clBlack, clRed, clGreen, clYellow, clBlue, clMagenta, cl
 ////////////////////////////////////////////////////////////////////////////////
 class ItemList : public WindowElement{
     public:
+        // Constructor 
+        ////////////////////////////////////////////////////////////////////////
+        ItemList(Booknote *);
+        
+        // Destructor 
+        ////////////////////////////////////////////////////////////////////////
+        ~ItemList();
+
         // Recreates the pad used for drawing, used for coping with resizes
         ////////////////////////////////////////////////////////////////////////
         void Recreate(size_t ,size_t);
@@ -58,6 +66,10 @@ class ItemList : public WindowElement{
         // Toggels the hilight of currently selected item
         ////////////////////////////////////////////////////////////////////////
         bool hilight_selected;     
+        
+        // The Booknote, whose contents must be printed out
+        ////////////////////////////////////////////////////////////////////////
+        Booknote * Book; 
 
         // Colours!
         ////////////////////////////////////////////////////////////////////////
@@ -65,15 +77,13 @@ class ItemList : public WindowElement{
         Color   BackColor;
 
     protected:
-        
-        // Print book contents, book dependent and should be implemented in
-        // derived class
+        // Print the book contents to a pad
         ////////////////////////////////////////////////////////////////////////
-        virtual void PrintToPad() = 0;
+        virtual void PrintToPad();
         
         // Return amount of elements in underlying book
         ////////////////////////////////////////////////////////////////////////
-        virtual unsigned int mySize() = 0;
+        virtual unsigned int mySize();
 
         // Selects next ( 1 down) item 
         ////////////////////////////////////////////////////////////////////////

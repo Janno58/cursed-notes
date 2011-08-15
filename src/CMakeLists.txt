@@ -23,13 +23,10 @@ set(SRCROOT ${CMAKE_SOURCE_DIR}/src)
 
 set(SRC
     ${SRCROOT}/cursednotes.cpp
-    ${SRCROOT}/notebook.cpp
-    ${SRCROOT}/notebook.hpp
-    ${SRCROOT}/projbook.cpp
-    ${SRCROOT}/projbook.hpp
+    ${SRCROOT}/booknote.cpp
+    ${SRCROOT}/booknote.hpp
     ${SRCROOT}/pbio.cpp
     ${SRCROOT}/pbio.hpp
-    ${SRCROOT}/note.hpp
     ${SRCROOT}/ncurses_app.hpp
     ${SRCROOT}/ncurses_app.cpp
     ${SRCROOT}/ncurses/ncurses.cpp
@@ -38,10 +35,6 @@ set(SRC
     ${SRCROOT}/ncurses/header.hpp
     ${SRCROOT}/ncurses/footer.cpp
     ${SRCROOT}/ncurses/footer.hpp
-    ${SRCROOT}/ncurses/projlist.cpp
-    ${SRCROOT}/ncurses/projlist.hpp
-    ${SRCROOT}/ncurses/notelist.cpp
-    ${SRCROOT}/ncurses/notelist.hpp
     ${SRCROOT}/ncurses/itemlist.cpp
     ${SRCROOT}/ncurses/itemlist.hpp
     ${SRCROOT}/ncurses/filler.hpp

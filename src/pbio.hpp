@@ -24,7 +24,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////////////////////////
-#include <projbook.hpp>
+#include <booknote.hpp>
 #include <iostream>
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
@@ -37,7 +37,7 @@
 namespace bfs = boost::filesystem;
 
 ////////////////////////////////////////////////////////////////////////////////
-// pbio takes care of loading and saving of projbook from & to disk
+// Booknote loading and saving
 ////////////////////////////////////////////////////////////////////////////////
 class pbio {
    public:
@@ -45,13 +45,13 @@ class pbio {
         ////////////////////////////////////////////////////////////////////////
         pbio(bfs::path);
 
-        // Read and deserialize Projbook from disk
+        // Read and deserialize Booknotes from disk
         ////////////////////////////////////////////////////////////////////////
-        Projbook * Read();
+        Booknote * Read();
         
-        // Serialize and write Projbook to disk
+        // Serialize and write Booknotes to disk
         ////////////////////////////////////////////////////////////////////////
-        void Write(Projbook *);
+        void Write(Booknote *);
    
    private:
         bfs::path pbpath;

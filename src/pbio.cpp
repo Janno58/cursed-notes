@@ -29,9 +29,9 @@ pbio::pbio(bfs::path path) {
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-Projbook * pbio::Read() {
+Booknote * pbio::Read() {
     bfs::ifstream ifs(pbpath);
-    Projbook * pb = new Projbook;
+    Booknote * pb = new Booknote;
 
     if(ifs.good()) {
         boost::archive::text_iarchive ia(ifs);
@@ -42,7 +42,7 @@ Projbook * pbio::Read() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void pbio::Write(Projbook * pb) {
+void pbio::Write(Booknote * pb) {
     bfs::ofstream ofs(pbpath);
     
     if(ofs.good()) {

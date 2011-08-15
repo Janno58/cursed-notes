@@ -23,7 +23,6 @@
 #define ncurses_filler_hpp
 
 ////////////////////////////////////////////////////////////////////////////////
-#include <notebook.hpp>
 #include <ncurses/windowelement.hpp>
 #include <ncurses.h>
 

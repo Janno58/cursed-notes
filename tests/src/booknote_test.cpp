@@ -19,44 +19,44 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef ncurses_notelist_hpp
-#define ncurses_notelist_hpp
+#define BOOST_TEST_MODULE unimportantstuff 
+#define BOOST_TEST_DYN_LINK
+#define BOOST_TEST_MAIN
 
 ////////////////////////////////////////////////////////////////////////////////
-#include <notebook.hpp>
-#include <ncurses/itemlist.hpp>
-#include <ncurses/windowelement.hpp>
-#include <ncurses.h>
+#include <booknote.hpp>
+#include <boost/test/unit_test.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////
-namespace NC {
+BOOST_AUTO_TEST_SUITE (booknote)
+
+// Test Booknote::Add()
+////////////////////////////////////////////////////////////////////////////////
+BOOST_AUTO_TEST_CASE (Add) {
+    Booknote bn("test");
+
+    BOOST_CHECK_NO_THROW(bn.Add("Need to write more test cases!!!", 0));
+    BOOST_CHECK_THROW(bn.Add("", 0), Booknote::add_exception);
+}
+
+// Test Booknote::Remove()
+////////////////////////////////////////////////////////////////////////////////
+BOOST_AUTO_TEST_CASE (Remove) {
+    Booknote bn;
+
+    BOOST_CHECK_THROW(bn.Remove(0), Booknote::remove_exception);
+    BOOST_CHECK_NO_THROW(bn.Add("Need to write more test cases!!!", 0));
+    BOOST_CHECK_NO_THROW(bn.Remove(0));
+}
+
+// Test Booknote::message
+////////////////////////////////////////////////////////////////////////////////
+BOOST_AUTO_TEST_CASE (message) {
+    Booknote bn;
+
+    BOOST_CHECK_NO_THROW(bn.message.assign("TestyName"));
+    BOOST_CHECK_EQUAL(bn.message, "TestyName");
+}
 
 ////////////////////////////////////////////////////////////////////////////////
-class NoteList : public ItemList {
-    public:
-        // Constructor
-        ////////////////////////////////////////////////////////////////////////
-        NoteList(Notebook *);
-        
-        // Destructor
-        ////////////////////////////////////////////////////////////////////////
-        ~NoteList();
-
-    private:
-        // Prints Notebook contents
-        ////////////////////////////////////////////////////////////////////////
-        void         PrintToPad();
-        
-        // Returns size of Notebook
-        ////////////////////////////////////////////////////////////////////////
-        unsigned int mySize();
-
-        Notebook *      nb;         // pointer to notebook with all the notes!
-};
-
-////////////////////////////////////////////////////////////////////////////////
-};
-
-////////////////////////////////////////////////////////////////////////////////
-#endif /*ncurses_notelist_hpp */
-
+BOOST_AUTO_TEST_SUITE_END()

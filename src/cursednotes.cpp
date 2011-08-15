@@ -22,7 +22,7 @@
 // Headers
 ///////////////////////////////////////////////////////////////////////////////
 #include <ncurses_app.hpp>
-#include <projbook.hpp>
+#include <booknote.hpp>
 #include <pbio.hpp>
 #include <iostream>
 #include <boost/filesystem.hpp>
@@ -65,16 +65,16 @@ int main() {
     
     // If there was error with paths, no point in running
     if(run) {
-        Projbook    * pb        = new Projbook();    
+        Booknote    * bn        = new Booknote;    
         pbio        * pio       = new pbio(full_path);
-        Ncurses_app * interface = new Ncurses_app(pb = pio->Read());
+        Ncurses_app * interface = new Ncurses_app(bn = pio->Read());
         
         interface->Run();
-        pio->Write(pb);   
+        pio->Write(bn);   
 
         delete interface;
         delete pio;
-        delete pb;
+        delete bn;
     }
     return false;
 }

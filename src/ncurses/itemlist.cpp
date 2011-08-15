@@ -25,6 +25,68 @@
 namespace NC {
 
 ///////////////////////////////////////////////////////////////////////////////
+ItemList::ItemList(Booknote * notebook) {
+    Book          = notebook;
+    lprint_size = 0;
+    selected    = 0;
+    screen_size = LINES - 4; // 4 is the space used by header and footer
+    screen_start= 0;
+    screen_end  = LINES-4;
+    TextColor   = clYellow;
+    BackColor   = clBlack;   
+    hilight_selected = true;
+    ElementPad = newpad(Book->size(), COLS);
+
+    this->PrintToPad(); 
+}
+
+///////////////////////////////////////////////////////////////////////////////
+ItemList::~ItemList() {
+    delwin(ElementPad);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void ItemList::PrintToPad() {
+    unsigned int cur_row = 0;
+    lprint_size = Book->size();
+   
+    // color on 
+    wattron(ElementPad, COLOR_PAIR(TextColor));          
+
+    for(std::list<Booknote *>::iterator itr = Book->begin(); itr != Book->end(); itr++) {
+        
+        if(cur_row == selected && hilight_selected) {
+            // change current color include fancy background color
+            wattron(ElementPad, COLOR_PAIR(TextColor*8+BackColor));   
+            // Fill with spaces so we get background color 
+            for(int j = 0; j <= COLS; j++)
+                mvwprintw(ElementPad, cur_row, j, " ");
+        }    
+       
+        // Print Notebook name and size
+        mvwprintw(ElementPad, cur_row, 0, "%s", (*itr)->message.c_str());
+        
+        // If item contains sub items -> print size
+        if((*itr)->size() > 0) {
+            mvwprintw(ElementPad, cur_row, COLS-4, "%s", (*itr)->SizeString().c_str());
+        }
+
+        // Restore to normal color 
+        wattron(ElementPad, COLOR_PAIR(TextColor));      
+        // next row
+        cur_row++; 
+    }
+
+    // color off
+    wattroff(ElementPad, COLOR_PAIR(TextColor));          
+}
+
+///////////////////////////////////////////////////////////////////////////////
+unsigned int ItemList::mySize() {
+    return Book->size();
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void ItemList::Recreate(size_t lines, size_t cols) {
     delwin(ElementPad);
     
@@ -110,10 +172,6 @@ void ItemList::Scroll(ScrollDirection sd) {
 
 ///////////////////////////////////////////////////////////////////////////////
 int ItemList::GetSelected() {
-    // Return -1 when there are no items to display so nothing can be selected!
-    if(mySize() == 0)
-        return -1;
-
     return selected;
 }
 

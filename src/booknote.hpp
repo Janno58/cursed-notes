@@ -1,4 +1,4 @@
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2011 Janno Tikka
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -18,65 +18,83 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-///////////////////////////////////////////////////////////////////////////////
-#ifndef notebook_hpp
-#define notebook_hpp
+////////////////////////////////////////////////////////////////////////////////
+#ifndef booknote_hpp
+#define booknote_hpp
 ///////////////////////////////////////////////////////////////////////////////
 // Headers                                                                   //
 ///////////////////////////////////////////////////////////////////////////////
-#include <note.hpp>
+#include <list>
 #include <exception>
 #include <sstream>
-#include <boost/serialization/vector.hpp>
+#include <boost/serialization/list.hpp>
 #include <boost/serialization/string.hpp>
 #include <boost/serialization/access.hpp>
 
 ///////////////////////////////////////////////////////////////////////////////
-// Notebook is a std::vector of Notes
-///////////////////////////////////////////////////////////////////////////////
-class Notebook : public note_vector {
+class Booknote : public std::list<Booknote *> {
     friend class boost::serialization::access; // boost needs access to private
 
     public:
-        // Notebook name
+        // Default constructor 
         ////////////////////////////////////////////////////////////////////////
-        std::string Name;
+        Booknote() {};
 
+
+        // Constructor 
+        ////////////////////////////////////////////////////////////////////////
+        Booknote(std::string);
+
+        // Destructor 
+        ////////////////////////////////////////////////////////////////////////
+        ~Booknote();
+        
         // Add new item
+        // @param text Item message
+        // @param pos  Position to insert the item at
         ////////////////////////////////////////////////////////////////////////
-        void Add(std::string);
+        void Add(std::string text, int pos);
 
-        // Removes item by ID
+        // Remove item
+        // @param pos  Position of item to remove
         ////////////////////////////////////////////////////////////////////////
-        void Remove(unsigned int);        
+        void Remove(int pos);
 
-        // Return size as std::string
+        // Access item on given position
+        // @param pos   The requested item's position 
         ////////////////////////////////////////////////////////////////////////
-        std::string size_string();
-
-        // Exceptions
+        Booknote * GetAt(int pos);
+        
+        // Return size as a string
         ////////////////////////////////////////////////////////////////////////
-            // Can not add new note
-            ////////////////////////////////////////////////////////////////////
-            class add_note_exception : public std::exception { };
+        std::string SizeString();
 
-            // Can not remove note
-            ////////////////////////////////////////////////////////////////////
-            class remove_note_exception : public std::exception { };
+        // size  > 0 notebook name
+        // size == 0 the note itself
+        ////////////////////////////////////////////////////////////////////////
+        std::string message;
+
+        // Could not add item 
+        ////////////////////////////////////////////////////////////////////////
+        class add_exception : public std::exception { };
+
+        // Could not remove item 
+        ////////////////////////////////////////////////////////////////////////
+        class remove_exception : public std::exception { };
     
+        // Could not return item at given position 
+        ////////////////////////////////////////////////////////////////////////
+        class getat_exception: public std::exception { };
     private:
         // boost serialization
         template<class Archive>
         void serialize(Archive & ar, const unsigned int version)
         {
             ar & version;
-            ar & boost::serialization::base_object<note_vector>(*this);
-            ar & Name;
+            ar & boost::serialization::base_object<std::list<Booknote *> >(*this);
+            ar & message;
         }
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-typedef std::vector<Notebook> notebook_vector;
-
-///////////////////////////////////////////////////////////////////////////////
-#endif /* notebook_hpp */
+#endif 

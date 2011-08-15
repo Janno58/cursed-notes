@@ -58,14 +58,14 @@ void Header::Refresh() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Header::PrintStatus(int Todos, int Active) {
+void Header::PrintStatus(int Todos, int Active, std::string message) {
     // clear from previous garbage
     this->BlankLine();    
 
     if(Active == 0)
-        mvwprintw(ElementPad, y_statusline, 0, "Items: %d | Active: None", Todos, Active);
+        mvwprintw(ElementPad, y_statusline, 0, "Items: %d | Active: None | %s", Todos, Active, message.c_str());
     else
-        mvwprintw(ElementPad, y_statusline, 0, "Items: %d | Active: %i", Todos, Active);
+        mvwprintw(ElementPad, y_statusline, 0, "Items: %d | Active: %i | %s", Todos, Active, message.c_str());
 }
 
 ///////////////////////////////////////////////////////////////////////////////

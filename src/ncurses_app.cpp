@@ -27,17 +27,15 @@
 bool Ncurses_app::resize;
 
 ///////////////////////////////////////////////////////////////////////////////
-Ncurses_app::Ncurses_app(Projbook * pbook) {
-    Books  = pbook;
+Ncurses_app::Ncurses_app(Booknote * note) {
+    BookStack.push(note);
 
     NCurse = new NC::NCurses();
     Header = new NC::Header();
     Footer = new NC::Footer();
-    ItemLs = new NC::ProjList(Books);
+    ItemLs = new NC::ItemList(BookStack.top());
     Filler = new NC::Filler();
-    CurBook= NULL; 
     cycle  = 0;
-    screen = 0;
     running= true;
 
     signal(SIGWINCH, Ncurses_app::SigWinch);
@@ -59,138 +57,96 @@ void Ncurses_app::SigWinch(int sig) {
     }
 }
 
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 void Ncurses_app::ActOnInput(unsigned int userinp) {
-    // Space - change between Projbook and Notebook view
-    ////////////////////////////////////////////////////////////////////
-    if(userinp == ' ') {
-        // Choose notebook
-        if(screen == 0) {
-            if(ItemLs->GetSelected() != -1) {
-                Switch_View(&Books->at(ItemLs->GetSelected()));
-            }
-        }
+    // Open currently selected item
+    ////////////////////////////////////////////////////////////////////////////
+    if(userinp == ' ') { try {
+        Booknote * new_root = BookStack.top()->GetAt(ItemLs->GetSelected());
+        BookStack.push(new_root);
 
-        // If notebook is open, change back to Notebook selection screen
-        else if(screen == 1) {
-            if(ItemLs->GetSelected() != -1 && CurBook != NULL) {
-                Switch_View();
-            }
-        }
+        delete ItemLs;
+        ItemLs = new NC::ItemList(BookStack.top());
         cycle = 0;
+    // Can not open non existant Booknote
+    } catch (Booknote::getat_exception) {
+    // Rethrow unknown exception
+    } catch (...) {
+    }}
+
+    // 'Close' currently selected item and open previously open item
+    ////////////////////////////////////////////////////////////////////////////
+    if(userinp == 'p') {
+        // We are at root item!
+        if(BookStack.size() == 1) {
+            return;
+        } else {
+            BookStack.pop();
+
+            delete ItemLs;
+            ItemLs = new NC::ItemList(BookStack.top());
+            cycle = 0;
+        }
     }
 
     // User wants this operation shut down asap! 
-    ////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
     if(userinp == 'q')
         running = false;
         
     // Go down 1 item 
-    ////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
     if(userinp == 'j' or userinp == KEY_DOWN) {
         ItemLs->Scroll(NC::ScrollDown);
         cycle = 0;
     }
         
     // Go up 1 item 
-    ////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
     if(userinp == 'k' or userinp == KEY_UP) {
         ItemLs->Scroll(NC::ScrollUp);
         cycle = 0;
     }
 
     // Delete currently selected item
-    ////////////////////////////////////////////////////////////////////   
+    ////////////////////////////////////////////////////////////////////////////
     if(userinp == 'd') {
         try {
-            // Remove project
-            if(screen == 0)
-                Books->Remove(ItemLs->GetSelected());            
-            // Remove note
-            else if(screen == 1 && CurBook != NULL)
-                CurBook->Remove(ItemLs->GetSelected());            
-        } catch (Notebook::remove_note_exception) {
-            Footer->PrintStatus("Erro removing item, nothing to remove?");
-            return;
-        } catch (Projbook::remove_book_exception) {
-            Footer->PrintStatus("Erro removing item, nothing to remove?");
-            return;
+            BookStack.top()->Remove(ItemLs->GetSelected());
+        } catch(Booknote::remove_exception) {
+            Footer->PrintStatus("Could not remove item!");
         }
-
+        
         ItemLs->needsResize=true;
     }       
 
     // Add new item
-    ////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
     if(userinp == 'n') {
-        std::string user_str = Footer->GetString();
-        
-        // Only save if non empty 
-        ////////////////////////////////////////////////////////////////
-        if(!user_str.empty()) {
-            // New notebook
-            if(screen == 0) 
-                Books->Add(user_str);
-            // New note
-            else if(screen == 1 && CurBook != NULL)
-                CurBook->Add(user_str);
-            
-            Footer->PrintStatus("Added!");
-            resize=true;
-        } else {
-            Footer->PrintStatus("Empty?!"); 
+        try {
+            BookStack.top()->Add(Footer->GetString(), ItemLs->GetSelected()+1);
+        } catch(Booknote::add_exception) {
+            Footer->PrintStatus("Could not add item!");
         }
     }
 
     // Edit item 
-    ////////////////////////////////////////////////////////////////////
-    if(userinp == 'e') {
-        std::string user_str;
+    ////////////////////////////////////////////////////////////////////////////
+    if(userinp == 'e') { try {
+        int pos = ItemLs->GetSelected();
+        std::string orig_message = BookStack.top()->GetAt(pos)->message;
+        std::string new_message  = Footer->GetString(orig_message);
 
-        // Change notebook name
-        if(screen == 0) {
-            user_str = Footer->GetString(Books->at(ItemLs->GetSelected()).Name);
-            // Dont need no empty name
-            if(!user_str.empty()) {
-                Books->at(ItemLs->GetSelected()).Name.assign(user_str);
-                ItemLs->needsResize=true;
-            }
-        }
-
-        // Change note
-        else if(screen == 1 && CurBook != NULL) {
-            user_str = Footer->GetString(CurBook->at(ItemLs->GetSelected()));
-            // Dont need no empty name
-            if(!user_str.empty()) {
-                CurBook->at(ItemLs->GetSelected()).assign(user_str);
-                ItemLs->needsResize=true;
-            }
-        }
+        BookStack.top()->GetAt(pos)->message.assign(new_message);
+        
+        ItemLs->needsResize=true;
+    } catch (Booknote::getat_exception()) {
+        Footer->PrintStatus("Could not remove item!");
+    }
     }
 }
 
-
-///////////////////////////////////////////////////////////////////////////////
-void Ncurses_app::Switch_View() {
-    if(CurBook != NULL && screen == 1) {
-        CurBook = NULL;
-        screen = 0;
-        delete ItemLs;
-        ItemLs = new NC::ProjList(Books); 
-    }
-}
-
-///////////////////////////////////////////////////////////////////////////////
-void Ncurses_app::Switch_View(Notebook * new_book) {
-    if(CurBook == NULL && screen == 0) {
-        CurBook = new_book;
-        screen  = 1;
-        delete ItemLs;
-        ItemLs = new NC::NoteList(CurBook); 
-    }
-}
-
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 void Ncurses_app::Run() {
     while(running) {
         try {
@@ -209,10 +165,7 @@ void Ncurses_app::Run() {
             resize = false;   
         }
         
-        if(screen == 0)
-            Header->PrintStatus(Books->size(), ItemLs->GetSelected() + 1);
-        else if(screen == 1 && CurBook != NULL)
-            Header->PrintStatus(CurBook->size(), ItemLs->GetSelected() + 1);
+        Header->PrintStatus(BookStack.top()->size(), ItemLs->GetSelected()+1, BookStack.top()->message);
         
         cycle++;
 
