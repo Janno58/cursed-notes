@@ -58,7 +58,7 @@ class Booknote : public std::list<Booknote *> {
         // Remove item
         // @param pos  Position of item to remove
         ////////////////////////////////////////////////////////////////////////
-        void Remove(int pos);
+        void Remove(unsigned int pos);
 
         // Access item on given position
         // @param pos   The requested item's position 

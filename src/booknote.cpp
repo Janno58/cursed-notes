@@ -58,18 +58,19 @@ void Booknote::Add(std::string text, int pos) {
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Booknote::Remove(int pos) {
+void Booknote::Remove(unsigned int pos) {
     // Anything to remove?
-    if(empty()) 
+    if(empty() or pos > size()-1) 
         throw Booknote::remove_exception();
 
     try {
         // No random access with std::list
         std::list<Booknote *>::iterator it = begin();
-        for(int i = 0; i != pos; i++) {
+        for(unsigned int i = 0; i != pos; i++) {
             it++;
         }
-
+        
+        delete (*it);
         erase(it);
     } catch(...) {
         throw Booknote::remove_exception();
