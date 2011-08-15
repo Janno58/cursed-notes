@@ -113,10 +113,12 @@ void Ncurses_app::ActOnInput(unsigned int userinp) {
     if(userinp == 'd') {
         try {
             BookStack.top()->Remove(ItemLs->GetSelected());
+            ItemLs->Scroll(NC::ScrollUp);
         } catch(Booknote::remove_exception) {
             Footer->PrintStatus("Could not remove item!");
         }
         
+        cycle = 0;
         ItemLs->needsResize=true;
     }       
 
@@ -125,9 +127,12 @@ void Ncurses_app::ActOnInput(unsigned int userinp) {
     if(userinp == 'n') {
         try {
             BookStack.top()->Add(Footer->GetString(), ItemLs->GetSelected()+1);
+            ItemLs->Scroll(NC::ScrollDown);
         } catch(Booknote::add_exception) {
             Footer->PrintStatus("Could not add item!");
         }
+        
+        cycle = 0;
     }
 
     // Edit item 
