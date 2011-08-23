@@ -61,7 +61,7 @@ void Ncurses_app::SigWinch(int sig) {
 void Ncurses_app::ActOnInput(unsigned int userinp) {
     // Open currently selected item
     ////////////////////////////////////////////////////////////////////////////
-    if(userinp == ' ') { try {
+    if(userinp == 'l') { try {
         Booknote * new_root = BookStack.top()->GetAt(ItemLs->GetSelected());
         BookStack.push(new_root);
 
@@ -76,7 +76,7 @@ void Ncurses_app::ActOnInput(unsigned int userinp) {
 
     // 'Close' currently selected item and open previously open item
     ////////////////////////////////////////////////////////////////////////////
-    if(userinp == 'p') {
+    if(userinp == 'h') {
         // We are at root item!
         if(BookStack.size() == 1) {
             return;

@@ -10,8 +10,8 @@ Functions:
     * Edit note
 
 Keys
-    * space(Notebook list)  - Open notebook
-    * space(Note list)      - Back to list of notebooks
+    * l - Open notebook/note | go deeper
+    * h - Close notebook | go back
     * q - exit
     * j - scroll down
     * k - scroll up
