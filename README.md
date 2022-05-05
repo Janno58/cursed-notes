@@ -1,5 +1,8 @@
 > #### Beware I wrote this back in 2011.
+> ![Screenshot 1](Screenshot1.png?raw=true) \
+> ![Screenshot 2](Screenshot2.png?raw=true) 
 
+\
 NCurses notes app written in C++ that uses boost and ncurses libs. \
 #### Functions:
 * Load from file
