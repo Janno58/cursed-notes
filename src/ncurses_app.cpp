@@ -22,6 +22,7 @@
 // Header
 ///////////////////////////////////////////////////////////////////////////////
 #include <ncurses_app.hpp>
+#include <iostream>
 
 ///////////////////////////////////////////////////////////////////////////////
 bool Ncurses_app::resize;
@@ -69,7 +70,7 @@ void Ncurses_app::ActOnInput(unsigned int userinp) {
         ItemLs = new NC::ItemList(BookStack.top());
         cycle = 0;
     // Can not open non existant Booknote
-    } catch (Booknote::getat_exception) {
+    } catch (Booknote::getat_exception &) {
     // Rethrow unknown exception
     } catch (...) {
     }}
@@ -114,7 +115,7 @@ void Ncurses_app::ActOnInput(unsigned int userinp) {
         try {
             BookStack.top()->Remove(ItemLs->GetSelected());
             ItemLs->Scroll(NC::ScrollUp);
-        } catch(Booknote::remove_exception) {
+        } catch(Booknote::remove_exception &) {
             Footer->PrintStatus("Could not remove item!");
         }
         
@@ -128,7 +129,7 @@ void Ncurses_app::ActOnInput(unsigned int userinp) {
         try {
             BookStack.top()->Add(Footer->GetString(), ItemLs->GetSelected()+1);
             ItemLs->Scroll(NC::ScrollDown);
-        } catch(Booknote::add_exception) {
+        } catch(Booknote::add_exception&) {
             Footer->PrintStatus("Could not add item!");
         }
         

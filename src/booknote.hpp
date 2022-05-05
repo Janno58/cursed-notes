@@ -88,7 +88,7 @@ class Booknote : public std::list<Booknote *> {
     private:
         // boost serialization
         template<class Archive>
-        void serialize(Archive & ar, const unsigned int version)
+        void serialize(Archive & ar, unsigned int version)
         {
             ar & version;
             ar & boost::serialization::base_object<std::list<Booknote *> >(*this);

@@ -63,7 +63,7 @@ void Header::PrintStatus(int Todos, int Active, std::string message) {
     this->BlankLine();    
 
     if(Active == 0)
-        mvwprintw(ElementPad, y_statusline, 0, "Items: %d | Active: None | %s", Todos, Active, message.c_str());
+        mvwprintw(ElementPad, y_statusline, 0, "Items: %d | Active: None | %s", Todos, message.c_str());
     else
         mvwprintw(ElementPad, y_statusline, 0, "Items: %d | Active: %i | %s", Todos, Active, message.c_str());
 }
